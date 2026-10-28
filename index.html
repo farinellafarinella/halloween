@@ -39,6 +39,33 @@ section{padding:20px;border-radius:18px}.grid{grid-template-columns:minmax(0,1fr
 <script>
 const $ = id => document.getElementById(id);
 let total = 0, pool = [], previous = [], history = [], round = 0, prizes = 0, busy = false;
+const storageKey = 'halloween-serata-v1';
+function saveNight() {
+  try { localStorage.setItem(storageKey, JSON.stringify({total, previous, history, round, prizes, count: Number($('count').value)})); }
+  catch { $('error').textContent = 'Salvataggio non disponibile in questo browser. Mantieni aperta la pagina per non perdere la serata.'; }
+}
+function restoreNight() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(storageKey));
+    if (!saved) return;
+    const valid = ns => Array.isArray(ns) && ns.every(n => Number.isInteger(n) && n >= 1 && n <= saved.total);
+    if (!Number.isInteger(saved.total) || saved.total < 1 || saved.total > 100000 || !valid(saved.previous) || new Set(saved.previous).size !== saved.previous.length || !Array.isArray(saved.history) || !saved.history.every(e => typeof e.label === 'string' && valid(e.numbers)) || !Number.isInteger(saved.round) || saved.round < 0 || !Number.isInteger(saved.prizes) || saved.prizes < 0) return;
+    total = saved.total; previous = saved.previous; round = saved.round; prizes = saved.prizes;
+    for (const entry of saved.history) log(entry.label, entry.numbers);
+    rebuildPool(); $('total').value = total;
+    $('count').value = Math.min(Math.max(1, Number.isInteger(saved.count) ? saved.count : 1), pool.length || 1);
+    for (const [symbol, target] of [['🦇', 'draw-results'], ['🏆', 'prize-results']]) {
+      const entry = history.slice().reverse().find(e => e.label.startsWith(symbol));
+      if (!entry) continue;
+      $(target).replaceChildren();
+      for (const n of entry.numbers) {
+        const ball = document.createElement('span'); ball.className = 'ball'; ball.textContent = n;
+        $(target).append(ball);
+      }
+    }
+    $('setup').hidden = true; $('game').hidden = false; update();
+  } catch { $('error').textContent = 'Impossibile recuperare la serata salvata. Puoi iniziare una nuova partita.'; }
+}
 function randomIndex(length) {
   const range = 4294967296, limit = range - range % length;
   const buffer = new Uint32Array(1);
@@ -90,7 +117,7 @@ $('setup-form').addEventListener('submit', event => {
   if (!Number.isSafeInteger(total) || total < 1 || total > 100000) return;
   pool = Array.from({length: total}, (_, index) => index + 1);
   $('setup').hidden = true; $('game').hidden = false; $('error').textContent = '';
-  update(); $('total').blur();
+  update(); saveNight(); $('total').blur();
 });
 $('draw-form').addEventListener('submit', async event => {
   event.preventDefault(); if (busy) return;
@@ -105,14 +132,14 @@ $('draw-form').addEventListener('submit', async event => {
   $('draw-results').replaceChildren();
   try {
     for (let i = 0; i < count; i++) {
-      const index = randomIndex(pool.length), number = pool[index];
-      await revealNumber('draw-results', number, 'Giocatore');
-      selected.push(number); pool[index] = pool[pool.length - 1]; pool.pop();
+      const index = randomIndex(pool.length);
+      selected.push(pool[index]); pool[index] = pool[pool.length - 1]; pool.pop();
     }
-    previous = selected.slice();
-    rebuildPool();
+    previous = selected.slice(); rebuildPool();
     log('🦇 Chiamata ' + (++round), selected);
     if (pool.length) $('count').value = Math.min(count, pool.length);
+    saveNight();
+    for (const number of selected) await revealNumber('draw-results', number, 'Giocatore');
   } finally {
     $('draw-button').textContent = '🎲 Estrai numeri'; setBusy(false);
   }
@@ -124,8 +151,8 @@ $('prize-button').addEventListener('click', async () => {
   $('prize-results').replaceChildren();
   try {
     const winner = randomIndex(total) + 1;
+    log('🏆 Premio ' + (++prizes), [winner]); saveNight();
     await revealNumber('prize-results', winner, 'Vincitore del premio');
-    log('🏆 Premio ' + (++prizes), [winner]);
   } finally {
     $('prize-button').textContent = '✨ Estrai il vincitore'; setBusy(false);
   }
@@ -134,19 +161,22 @@ $('skip-round').addEventListener('click', () => {
   if (busy || pool.length) return;
   previous = []; rebuildPool();
   log('🦇 Giocata ' + (++round) + ' — nessuna chiamata', []);
-  $('count').value = 1; update();
+  $('count').value = 1; update(); saveNight();
 });
 $('reset').addEventListener('click', () => {
   if (busy) return;
-  if (!confirm('Vuoi iniziare una nuova partita? I numeri chiamati e il diario verranno azzerati.')) return;
+  if (!confirm('Vuoi iniziare una nuova partita? La serata salvata, i numeri e il diario verranno cancellati.')) return;
   total = 0; pool = []; previous = []; history = []; round = 0; prizes = 0;
   $('setup').hidden = false; $('game').hidden = true; $('error').textContent = '';
   $('count').value = 1;
   $('draw-results').innerHTML = '<span class="empty">La prossima chiamata potrebbe essere la tua.</span>';
   $('prize-results').innerHTML = '<span class="empty">A chi toccherà il premio?</span>';
   $('history').innerHTML = '<p class="empty">Le estrazioni compariranno qui.</p>';
-  $('total').focus();
+  try { localStorage.removeItem(storageKey); } catch { $('error').textContent = 'Impossibile cancellare il salvataggio dal browser.'; }
+  $('total').value = ''; $('total').focus();
 });
+$('count').addEventListener('change', () => { if (total && !busy) saveNight(); });
+restoreNight();
 </script>
 </body>
 </html>
