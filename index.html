@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#100d18">
+<title>La notte delle estrazioni • Halloween</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Creepster&family=DM+Sans:wght@400;500;600;700&display=swap');
+:root{color-scheme:dark;--orange:#ff922e;--muted:#aba4b8;--line:#ffffff16}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:#100d18;color:#f9f4ed;font-family:'DM Sans',system-ui,sans-serif;background-image:radial-gradient(ellipse at 50% 0%,#61301a66,transparent 55%),radial-gradient(ellipse at 100% 80%,#45206033,transparent 45%)}main{max-width:1000px;margin:auto;padding:48px 24px 30px}header{text-align:center;margin-bottom:36px}.eyebrow{text-transform:uppercase;letter-spacing:4px;font-size:11px;color:var(--orange);font-weight:700}.pumpkin{font-size:56px;margin:18px 0 5px;filter:drop-shadow(0 0 25px #ff7b3044)}h1{font-family:'Creepster',Georgia,serif;font-size:clamp(40px,7vw,68px);font-weight:400;line-height:1.1;margin:10px 0;color:#ffa14b}header p{color:var(--muted);margin:14px 0}section{background:#1b1723db;border:1px solid var(--line);border-radius:20px;padding:26px}h2{font-size:19px;margin:0 0 8px}p{line-height:1.6}.hint{font-size:13px;color:var(--muted);margin:0 0 24px}label{display:block;font-size:13px;margin-bottom:9px;color:#ddd5e4}input{background:#100d18;border:1px solid #ffffff26;color:white;border-radius:10px;padding:13px 14px;font:inherit;width:100%;outline:none}input:focus{border-color:var(--orange)}button{font:600 14px 'DM Sans',system-ui,sans-serif;cursor:pointer;border:0;border-radius:10px;padding:14px 20px;background:var(--orange);color:#241307;transition:transform .15s,background .15s}button:hover{background:#ffad60;transform:translateY(-1px)}button:disabled{opacity:.4;cursor:not-allowed;transform:none}.setup-row{display:flex;gap:12px;align-items:end}.field{flex:1}.setup-row button{min-height:47px}.grid{display:grid;grid-template-columns:1.35fr 1fr;gap:20px;margin-top:20px}.number-title{display:flex;align-items:center;gap:12px;margin-bottom:15px}.icon{background:#ff922e16;border-radius:12px;padding:10px;font-size:23px}.number-title h2{margin:0}.tag{margin-left:auto;color:var(--muted);font-size:12px}.draw-form{display:flex;gap:10px;align-items:end}.draw-form input{max-width:110px}.draw-form button{flex:1;min-height:47px}.results{min-height:145px;display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;padding:25px 0 12px}.empty{color:#8e859d;font-size:14px;text-align:center}.ball{display:grid;place-items:center;min-width:66px;height:66px;padding:8px;border-radius:50%;background:#ff922e;color:#251307;font-size:30px;font-weight:700;box-shadow:0 5px 28px #ff922e20;animation:appear .35s ease both}.prize{background:linear-gradient(140deg,#292034,#1b1723);border-color:#b793e136}.prize button{background:#c8a7f0;color:#251534;width:100%}.prize .ball{background:#c8a7f0;box-shadow:0 5px 30px #b793e126}.prize .results{min-height:130px}.stats{display:flex;gap:18px;color:var(--muted);font-size:13px;margin-top:18px}.stats strong{color:#f9f4ed}.history{margin-top:20px}.history-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.ghost{background:transparent;color:var(--muted);border:1px solid #ffffff26;font-size:12px;padding:9px 12px}.ghost:hover{background:#ffffff0a;color:white}.history-list{margin-top:16px}.history-row{display:flex;justify-content:space-between;gap:15px;border-top:1px solid var(--line);padding:14px 0;font-size:14px}.history-row span{color:var(--muted)}.history-row b{text-align:right;word-break:break-word}.error{color:#ffb299;min-height:20px;font-size:13px;margin:12px 0 0}footer{text-align:center;color:#776d85;font-size:12px;margin-top:28px}[hidden]{display:none!important}@keyframes appear{from{opacity:0;transform:translateY(12px) scale(.8)}to{opacity:1;transform:none}}@media(max-width:650px){main{padding:28px 16px}.grid{grid-template-columns:1fr}section{padding:21px}.setup-row{flex-direction:column;align-items:stretch}.tag{font-size:11px}header{margin-bottom:26px}}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.ball.rolling{background:#302536;color:#ffa14b;border:1px dashed #ff922e;animation:suspense .7s ease-in-out infinite alternate}.prize .ball.rolling{background:#302536;color:#c8a7f0;border-color:#c8a7f0}@keyframes suspense{to{transform:scale(1.12);box-shadow:0 0 28px #ff922e44}}
+
+html{-webkit-text-size-adjust:100%}body{min-height:100svh}input{font-size:16px;min-height:48px}button{min-height:48px;touch-action:manipulation}main{padding-left:max(24px,env(safe-area-inset-left));padding-right:max(24px,env(safe-area-inset-right));padding-bottom:max(30px,env(safe-area-inset-bottom))}.stats{flex-wrap:wrap;row-gap:8px}.grid>*{min-width:0}.history-row span{flex-shrink:0}.number-title{flex-wrap:wrap}.ball{max-width:100%;font-variant-numeric:tabular-nums}#skip-round{margin-top:14px;width:100%}
+@media(max-width:650px){main{padding:24px max(16px,env(safe-area-inset-right)) max(24px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}.draw-form{flex-direction:column;align-items:stretch}.draw-form input{max-width:none}.draw-form button{width:100%}.history-head{flex-wrap:wrap}.number-title h2{font-size:18px}.tag{margin-left:0}.eyebrow{letter-spacing:2px}.results{gap:10px}.ball{min-width:62px;height:62px;font-size:28px}.history-row{font-size:13px}header p{font-size:14px}}
+@media(prefers-reduced-motion:reduce){.ball.rolling{animation:none!important}}
+/* Interfaccia iPhone in tutte le dimensioni, anche in orizzontale. */
+main{max-width:480px;padding:max(20px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(24px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
+header{margin-bottom:22px}.pumpkin{font-size:44px;margin:10px 0 4px}h1{font-size:clamp(36px,10vw,46px)}header p{font-size:14px;margin:10px 0}.eyebrow{font-size:10px;letter-spacing:2px}
+section{padding:20px;border-radius:18px}.grid{grid-template-columns:minmax(0,1fr);gap:16px;margin-top:16px}.setup-row,.draw-form{flex-direction:column;align-items:stretch}.setup-row button,.draw-form button{width:100%;min-height:52px}.draw-form input{max-width:none}input{font-size:16px;min-height:52px}button{font-size:16px;min-height:52px;-webkit-tap-highlight-color:transparent}.field{min-width:0}
+.number-title{gap:10px}.number-title h2{font-size:18px}.tag{margin-left:0;font-size:10px}.hint{font-size:14px;margin-bottom:18px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;font-size:13px}.stats span:last-child{grid-column:1/-1}.history-head{flex-wrap:wrap}.history-head h2{width:100%}.history-head button{width:100%}.history-row{gap:10px;font-size:13px}.history-row span{flex-shrink:1}.results{gap:10px;min-height:125px}.ball{min-width:64px;height:64px;font-size:29px}.ghost{font-size:14px}.history{margin-top:16px}
+@media(hover:none){button:hover{transform:none}}
+</style>
+</head>
+<body>
+<main>
+<header><div class="eyebrow">Dolcetto, scherzetto… o fortuna?</div><div class="pumpkin" aria-hidden="true">🎃</div><h1>La notte delle estrazioni</h1><p>I numeri sono pronti. Chi verrà chiamato?</p></header>
+<section id="setup"><h2>Prima di evocare la fortuna…</h2><p class="hint">Assegna a ogni giocatore un numero da 1 al totale dei presenti.</p><form id="setup-form" class="setup-row"><div class="field"><label for="total">Quanti giocatori ci sono?</label><input id="total" inputmode="numeric" type="number" min="1" max="100000" step="1" placeholder="Es. 30" required></div><button type="submit">Inizia la serata →</button></form></section>
+<div id="game" hidden>
+<div class="stats"><span>Presenti: <strong id="total-stat"></strong></span><span>Disponibili: <strong id="left-stat"></strong></span><span>Esclusi per un turno: <strong id="called-stat"></strong></span></div>
+<div class="grid">
+<section><div class="number-title"><div class="icon" aria-hidden="true">🦇</div><h2>Chiamiamo i giocatori</h2></div><p class="hint">Sono esclusi solo i numeri della giocata precedente. Dalla giocata successiva possono tornare.</p><form id="draw-form" class="draw-form"><div><label for="count">Quanti ne chiami?</label><input id="count" type="number" min="1" step="1" value="1" required></div><button id="draw-button" type="submit">🎲 Estrai numeri</button></form><div id="draw-results" class="results" aria-live="polite" aria-atomic="true"><span class="empty">La prossima chiamata potrebbe essere la tua.</span></div><button id="skip-round" class="ghost" type="button" hidden>Passa un turno senza chiamate</button><p id="remaining" class="hint" style="margin-bottom:0"></p></section>
+<section class="prize"><div class="number-title"><div class="icon" aria-hidden="true">🏆</div><h2>Premio a sorpresa</h2><span class="tag">TUTTI IN GIOCO</span></div><p class="hint">Un vincitore tra tutti i presenti, anche tra chi è già stato chiamato. Ogni premio riparte da tutti.</p><button id="prize-button" type="button">✨ Estrai il vincitore</button><div id="prize-results" class="results" aria-live="polite" aria-atomic="true"><span class="empty">A chi toccherà il premio?</span></div></section>
+</div>
+<section class="history"><div class="history-head"><h2>Il diario della notte</h2><button id="reset" class="ghost" type="button">Nuova partita</button></div><div id="history" class="history-list"><p class="empty">Le estrazioni compariranno qui.</p></div></section>
+</div>
+<p id="error" class="error" role="alert"></p>
+<footer>✦ Una notte da brividi, un numero alla volta ✦</footer>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+let total = 0, pool = [], previous = [], history = [], round = 0, prizes = 0, busy = false;
+function randomIndex(length) {
+  const range = 4294967296, limit = range - range % length;
+  const buffer = new Uint32Array(1);
+  do { crypto.getRandomValues(buffer); } while (buffer[0] >= limit);
+  return buffer[0] % length;
+}
+const wait = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
+function setBusy(value) {
+  busy = value;
+  $('prize-button').disabled = value;
+  $('reset').disabled = value;
+  update();
+}
+async function revealNumber(target, number, prefix) {
+  const ball = document.createElement('span');
+  ball.className = 'ball rolling'; ball.textContent = '?';
+  ball.setAttribute('aria-label', 'Estrazione in corso');
+  $(target).append(ball);
+  await wait(1400);
+  ball.className = 'ball'; ball.textContent = number;
+  ball.setAttribute('aria-label', prefix + ' ' + number);
+  await wait(350);
+}
+function rebuildPool() {
+  const excluded = new Set(previous);
+  pool = Array.from({length: total}, (_, i) => i + 1).filter(n => !excluded.has(n));
+}
+function update() {
+  $('total-stat').textContent = total;
+  $('left-stat').textContent = pool.length;
+  $('called-stat').textContent = previous.length;
+  $('count').max = pool.length || 1;
+  $('count').disabled = busy || !pool.length;
+  $('draw-button').disabled = busy || !pool.length;
+  $('skip-round').hidden = pool.length > 0;
+  $('skip-round').disabled = busy;
+  $('remaining').textContent = pool.length ? `${pool.length} giocatori disponibili per la prossima giocata.` : 'Tutti i presenti sono usciti nella giocata precedente. Passa un turno senza chiamate per renderli di nuovo disponibili.';
+}
+function log(label, numbers) {
+  if (!history.length) $('history').replaceChildren();
+  history.push({label, numbers});
+  const row = document.createElement('div'); row.className = 'history-row';
+  const title = document.createElement('span'); title.textContent = label;
+  const values = document.createElement('b'); values.textContent = numbers.join(' · ');
+  row.append(title, values); $('history').prepend(row);
+}
+$('setup-form').addEventListener('submit', event => {
+  event.preventDefault(); total = Number($('total').value);
+  if (!Number.isSafeInteger(total) || total < 1 || total > 100000) return;
+  pool = Array.from({length: total}, (_, index) => index + 1);
+  $('setup').hidden = true; $('game').hidden = false; $('error').textContent = '';
+  update(); $('total').blur();
+});
+$('draw-form').addEventListener('submit', async event => {
+  event.preventDefault(); if (busy) return;
+  const count = Number($('count').value);
+  if (!Number.isSafeInteger(count) || count < 1 || count > pool.length) {
+    $('error').textContent = `Scegli un numero da 1 a ${pool.length}.`; return;
+  }
+  $('error').textContent = ''; const selected = [];
+  $('count').blur();
+  setBusy(true);
+  $('draw-button').textContent = '🎲 Estrazione in corso…';
+  $('draw-results').replaceChildren();
+  try {
+    for (let i = 0; i < count; i++) {
+      const index = randomIndex(pool.length), number = pool[index];
+      await revealNumber('draw-results', number, 'Giocatore');
+      selected.push(number); pool[index] = pool[pool.length - 1]; pool.pop();
+    }
+    previous = selected.slice();
+    rebuildPool();
+    log('🦇 Chiamata ' + (++round), selected);
+    if (pool.length) $('count').value = Math.min(count, pool.length);
+  } finally {
+    $('draw-button').textContent = '🎲 Estrai numeri'; setBusy(false);
+  }
+});
+$('prize-button').addEventListener('click', async () => {
+  if (busy || !total) return;
+  setBusy(true);
+  $('prize-button').textContent = '✨ La fortuna sta scegliendo…';
+  $('prize-results').replaceChildren();
+  try {
+    const winner = randomIndex(total) + 1;
+    await revealNumber('prize-results', winner, 'Vincitore del premio');
+    log('🏆 Premio ' + (++prizes), [winner]);
+  } finally {
+    $('prize-button').textContent = '✨ Estrai il vincitore'; setBusy(false);
+  }
+});
+$('skip-round').addEventListener('click', () => {
+  if (busy || pool.length) return;
+  previous = []; rebuildPool();
+  log('🦇 Giocata ' + (++round) + ' — nessuna chiamata', []);
+  $('count').value = 1; update();
+});
+$('reset').addEventListener('click', () => {
+  if (busy) return;
+  if (!confirm('Vuoi iniziare una nuova partita? I numeri chiamati e il diario verranno azzerati.')) return;
+  total = 0; pool = []; previous = []; history = []; round = 0; prizes = 0;
+  $('setup').hidden = false; $('game').hidden = true; $('error').textContent = '';
+  $('count').value = 1;
+  $('draw-results').innerHTML = '<span class="empty">La prossima chiamata potrebbe essere la tua.</span>';
+  $('prize-results').innerHTML = '<span class="empty">A chi toccherà il premio?</span>';
+  $('history').innerHTML = '<p class="empty">Le estrazioni compariranno qui.</p>';
+  $('total').focus();
+});
+</script>
+</body>
+</html>
