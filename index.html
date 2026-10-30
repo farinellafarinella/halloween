@@ -1,1 +1,166 @@
-<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Timer 5 secondi – Gong</title><style>*{box-sizing:border-box}body{margin:0;min-height:100dvh;background:#101020;color:white;font-family:system-ui,-apple-system,sans-serif;display:grid;place-items:center}.wrap{text-align:center;width:min(92vw,520px)}h1{font-size:clamp(1.4rem,4vw,2rem);font-weight:650}#time{font-variant-numeric:tabular-nums;font-size:clamp(8rem,28vw,13rem);line-height:1.15;font-weight:800;margin:22px 0}button{border:0;border-radius:18px;background:#a78bfa;color:#111025;font-size:1.6rem;font-weight:800;padding:22px 40px;width:100%;cursor:pointer}button:active{transform:scale(.98)}p{color:#b8b7ca}#status{min-height:1.7em;font-weight:600;color:#d9c6ff}body.done{background:#173a33}</style></head><body><main class="wrap"><h1>Timer 5 secondi</h1><div id="time" aria-live="off">5</div><button id="start">START</button><p id="status">Premi START per iniziare</p><p>Un TIC ogni secondo e un GONG alla fine. Premi ancora per ricominciare.</p></main><script>let ctx,endAt,tick,playing=false,lastSecond=5;const display=document.getElementById('time'),button=document.getElementById('start'),status=document.getElementById('status');function gong(){const t=ctx.currentTime;const partials=[[220,0.6],[293.7,0.21],[440.9,0.13],[587.3,0.08],[740,0.05]];partials.forEach(([freq,amp],i)=>{const o=ctx.createOscillator(),g=ctx.createGain();o.type='sine';o.frequency.setValueAtTime(freq,t);o.frequency.exponentialRampToValueAtTime(freq*(.992+i*.001),t+2.2);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(amp,t+.015+i*.004);g.gain.exponentialRampToValueAtTime(.0001,t+2.8);o.connect(g).connect(ctx.destination);o.start(t);o.stop(t+2.85)});}function clickTick(){const t=ctx.currentTime;const o=ctx.createOscillator(),g=ctx.createGain();o.type='square';o.frequency.setValueAtTime(1050,t);o.frequency.exponentialRampToValueAtTime(690,t+.055);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.16,t+.003);g.gain.exponentialRampToValueAtTime(.0001,t+.09);o.connect(g).connect(ctx.destination);o.start(t);o.stop(t+.1)}function reset(){clearInterval(tick);playing=false;display.textContent='5';document.body.classList.remove('done');button.textContent='START';status.textContent='Premi START per iniziare'}button.addEventListener('click',async()=>{if(playing){reset();return}try{ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();await ctx.resume()}catch(e){status.textContent='Audio non disponibile su questo browser';return}playing=true;document.body.classList.remove('done');button.textContent='ANNULLA';status.textContent='Conto alla rovescia';endAt=performance.now()+5000;display.textContent='5';lastSecond=5;clickTick();clearInterval(tick);tick=setInterval(()=>{const remaining=Math.max(0,Math.ceil((endAt-performance.now())/1000));display.textContent=remaining;if(remaining!==lastSecond){lastSecond=remaining;if(remaining>0)clickTick()}if(remaining===0){clearInterval(tick);playing=false;button.textContent='RICOMINCIA';status.textContent='TEMPO SCADUTO!';document.body.classList.add('done');gong()}},25)});</script></body></html>
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Timer 5 secondi – Gong aggressivo</title>
+  <style>
+    *{box-sizing:border-box}
+    body{
+      margin:0;min-height:100dvh;display:grid;place-items:center;
+      background:radial-gradient(circle at top, #26123a 0%, #12091f 50%, #090610 100%);
+      color:#fff;font-family:system-ui,-apple-system,sans-serif;
+    }
+    .wrap{text-align:center;width:min(92vw,560px);padding:24px}
+    h1{font-size:clamp(1.5rem,4vw,2.1rem);margin:0 0 10px;font-weight:800}
+    #time{
+      font-variant-numeric:tabular-nums;
+      font-size:clamp(7rem,26vw,12rem);
+      line-height:1;
+      font-weight:900;
+      margin:24px 0;
+      text-shadow:0 0 24px rgba(199,134,255,.25);
+    }
+    button{
+      border:0;border-radius:18px;
+      background:linear-gradient(180deg,#d8a8ff 0%, #a86cf6 100%);
+      color:#170d24;
+      font-size:1.5rem;font-weight:900;
+      padding:22px 36px;width:100%;cursor:pointer;
+      box-shadow:0 10px 30px rgba(168,108,246,.25);
+    }
+    button:active{transform:scale(.985)}
+    p{color:#d2c8e8;margin:.75rem 0 0}
+    #status{min-height:1.6em;font-weight:700;color:#f0d7ff}
+    body.done{
+      background:radial-gradient(circle at top, #183f2c 0%, #0e2219 55%, #08120d 100%);
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>Timer 5 secondi</h1>
+    <div id="time" aria-live="off">5</div>
+    <button id="start">START</button>
+    <p id="status">Premi START per iniziare</p>
+    <p>Solo countdown visivo + gong finale più deciso. Premi ancora per ricominciare.</p>
+  </main>
+
+  <script>
+    let ctx, endAt, loop, playing = false;
+    const display = document.getElementById('time');
+    const button = document.getElementById('start');
+    const status = document.getElementById('status');
+
+    function aggressiveGong(){
+      const t = ctx.currentTime;
+      const master = ctx.createGain();
+      master.gain.setValueAtTime(0.0001, t);
+      master.gain.exponentialRampToValueAtTime(1.0, t + 0.012);
+      master.gain.exponentialRampToValueAtTime(0.0001, t + 3.2);
+      master.connect(ctx.destination);
+
+      // Colpo iniziale grave e deciso
+      const thump = ctx.createOscillator();
+      const thumpGain = ctx.createGain();
+      thump.type = 'triangle';
+      thump.frequency.setValueAtTime(110, t);
+      thump.frequency.exponentialRampToValueAtTime(72, t + 0.22);
+      thumpGain.gain.setValueAtTime(0.0001, t);
+      thumpGain.gain.exponentialRampToValueAtTime(0.9, t + 0.01);
+      thumpGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.35);
+      thump.connect(thumpGain).connect(master);
+      thump.start(t);
+      thump.stop(t + 0.36);
+
+      // Risonanze metalliche del gong
+      const partials = [
+        [196,0.55,3.0],
+        [247,0.45,2.8],
+        [311,0.35,2.6],
+        [392,0.25,2.35],
+        [523.25,0.18,2.1],
+        [659.25,0.11,1.8],
+      ];
+
+      partials.forEach(([freq, amp, dur], i) => {
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = i < 2 ? 'sine' : 'triangle';
+        o.frequency.setValueAtTime(freq, t);
+        o.frequency.exponentialRampToValueAtTime(freq * (0.988 + i * 0.002), t + dur);
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(amp, t + 0.014 + i*0.004);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+        o.connect(g).connect(master);
+        o.start(t);
+        o.stop(t + dur + 0.02);
+      });
+
+      // Attacco metallico/noise per renderlo più aggressivo
+      const noiseBuffer = ctx.createBuffer(1, ctx.sampleRate * 0.18, ctx.sampleRate);
+      const data = noiseBuffer.getChannelData(0);
+      for(let i=0;i<data.length;i++) data[i] = (Math.random()*2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.03));
+      const noise = ctx.createBufferSource();
+      noise.buffer = noiseBuffer;
+      const bandpass = ctx.createBiquadFilter();
+      bandpass.type = 'bandpass';
+      bandpass.frequency.setValueAtTime(2400, t);
+      bandpass.Q.value = 0.9;
+      const ng = ctx.createGain();
+      ng.gain.setValueAtTime(0.0001, t);
+      ng.gain.exponentialRampToValueAtTime(0.22, t + 0.004);
+      ng.gain.exponentialRampToValueAtTime(0.0001, t + 0.16);
+      noise.connect(bandpass).connect(ng).connect(master);
+      noise.start(t);
+      noise.stop(t + 0.17);
+    }
+
+    function reset(){
+      clearInterval(loop);
+      playing = false;
+      display.textContent = '5';
+      document.body.classList.remove('done');
+      button.textContent = 'START';
+      status.textContent = 'Premi START per iniziare';
+    }
+
+    button.addEventListener('click', async () => {
+      if (playing) {
+        reset();
+        return;
+      }
+
+      try {
+        ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+        await ctx.resume();
+      } catch (e) {
+        status.textContent = 'Audio non disponibile su questo browser';
+        return;
+      }
+
+      playing = true;
+      document.body.classList.remove('done');
+      button.textContent = 'ANNULLA';
+      status.textContent = 'Conto alla rovescia';
+      endAt = performance.now() + 5000;
+      display.textContent = '5';
+
+      clearInterval(loop);
+      loop = setInterval(() => {
+        const remaining = Math.max(0, Math.ceil((endAt - performance.now()) / 1000));
+        display.textContent = remaining;
+
+        if (remaining === 0) {
+          clearInterval(loop);
+          playing = false;
+          button.textContent = 'RICOMINCIA';
+          status.textContent = 'TEMPO SCADUTO!';
+          document.body.classList.add('done');
+          aggressiveGong();
+        }
+      }, 25);
+    });
+  </script>
+</body>
+</html>
